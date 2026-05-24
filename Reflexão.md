@@ -2,11 +2,11 @@
 
 ## 1. Decisões de design do prompt
 
-Escolhi o domínio de tutor de inglês porque é uma necessidade real para estudantes brasileiros e o escopo é bem delimitado — o agente tem um papel claro e concreto. Qualquer pessoa consegue testar se a resposta está certa ou não, o que facilita a avaliação iterativa do prompt.
+Escolhi tutor de inglês porque é algo que faz sentido no meu dia a dia — é uma dificuldade real, minha e de muita gente ao redor. Isso ajudou bastante na hora de testar, porque eu mesmo conseguia julgar se a resposta estava boa ou não, sem precisar de nenhum critério técnico complicado.
 
-A parte mais difícil do projeto foi entender o código Python, especialmente como o SDK do Google Gemini funciona e como o histórico multi-turn é mantido automaticamente pelo objeto `chat`. No início não estava claro que bastava usar `client.chats.create()` e chamar `chat.send_message()` repetidamente — o próprio SDK cuida do contexto entre os turnos.
+A parte mais difícil foi entender o código Python. Nunca tinha mexido com SDK de IA antes, e no começo não fazia ideia de como o histórico da conversa era mantido. Fui lendo aos poucos e descobri que o próprio objeto `chat` já cuida disso — cada vez que você chama `chat.send_message()`, ele lembra tudo que foi dito antes automaticamente. Parece simples depois que entende, mas levou um tempo até clicar.
 
-O elemento mais trabalhoso do system prompt foi definir **o que o agente não faz** de forma que a recusa soasse natural e não robótica. Testei algumas versões e percebi que incluir um redirecionamento ("mas sobre inglês posso te ajudar muito") deixava a negativa mais amigável do que uma recusa seca. Também adicionei dois exemplos few-shot com situações diferentes — uma tradução simples e uma dúvida conceitual — para mostrar ao modelo o formato de resposta esperado em contextos distintos.
+No prompt, o que mais me deu trabalho foi escrever a parte de recusa — quando o agente precisa dizer que não vai responder algo fora do escopo. As primeiras versões soavam muito robotizadas, tipo um atendente de banco. Fui ajustando até chegar num tom mais natural, onde a recusa vem acompanhada de um redirecionamento ("mas sobre inglês posso te ajudar muito"). Também coloquei dois exemplos diferentes no prompt — uma tradução simples e uma dúvida de gramática — pra mostrar ao modelo como eu queria que ele respondesse em cada tipo de situação.
 
 ---
 
@@ -14,14 +14,10 @@ O elemento mais trabalhoso do system prompt foi definir **o que o agente não fa
 
 ### ✅ O que funcionou — Recusa fora do escopo
 
-**Conversa:**
-> Usuário: `loops`
-> EngTutor: *explicou loops em Python detalhadamente*
+Após corrigir o system prompt, testei perguntas fora do escopo e o agente respondeu corretamente:
 
-Depois de corrigir o system prompt, testei a mesma pergunta e o agente respondeu corretamente:
-
-> Usuário: `loops`
-> EngTutor: "Sou especialista em ensino de inglês. Sobre programação não sou a ferramenta certa — mas posso te ensinar a falar sobre tecnologia em inglês! Quer tentar?"
+> Usuário: `qual a capital da França?`
+> EngTutor: "Sou especialista em ensino de inglês. Sobre geografia não sou a ferramenta certa — mas posso te ensinar a falar sobre viagens em inglês! Quer tentar?"
 
 A instrução explícita de recusa com template de resposta foi determinante para esse resultado.
 
@@ -31,7 +27,7 @@ O maior problema técnico foi configurar a API do Google Gemini. As variáveis d
 
 > *"O termo 'export' não é reconhecido como nome de cmdlet"*
 
-A solução foi usar um arquivo `.env` com a biblioteca `python-dotenv`, chamando `load_dotenv()` no início do código para carregar a chave automaticamente. Além disso, o `system_prompt.txt` inicialmente continha o prompt errado (de tutor de Python), o que fez o agente ignorar completamente o escopo de inglês nas primeiras interações.
+A solução foi usar um arquivo `.env` com a biblioteca `python-dotenv`, chamando `load_dotenv()` no início do código para carregar a chave automaticamente. Além disso, o `system_prompt.txt` inicialmente continha o prompt errado, o que fez o agente ignorar completamente o escopo de inglês nas primeiras interações.
 
 ---
 
