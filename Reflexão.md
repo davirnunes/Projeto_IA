@@ -4,9 +4,11 @@
 
 Escolhi tutor de inglês porque é algo que faz sentido no meu dia a dia — é uma dificuldade real, minha e de muita gente ao redor. Isso ajudou bastante na hora de testar, porque eu mesmo conseguia julgar se a resposta estava boa ou não, sem precisar de nenhum critério técnico complicado.
 
-A parte mais difícil foi entender o código Python. Nunca tinha mexido com SDK de IA antes, e no começo não fazia ideia de como o histórico da conversa era mantido. Fui lendo aos poucos e descobri que o próprio objeto `chat` já cuida disso — cada vez que você chama `chat.send_message()`, ele lembra tudo que foi dito antes automaticamente. Parece simples depois que entende, mas levou um tempo até clicar.
+Vale mencionar que usei o Claude para me ajudar a escrever o código e estruturar o projeto. Ele gerou a base do agent.py e fui ajustando conforme testava e entendia o que cada parte fazia. A responsabilidade de entender o que foi gerado foi minha e foi exatamente aí que apareceram as dificuldades.
 
-No prompt, o que mais me deu trabalho foi escrever a parte de recusa — quando o agente precisa dizer que não vai responder algo fora do escopo. As primeiras versões soavam muito robotizadas, tipo um atendente de banco. Fui ajustando até chegar num tom mais natural, onde a recusa vem acompanhada de um redirecionamento ("mas sobre inglês posso te ajudar muito"). Também coloquei dois exemplos diferentes no prompt — uma tradução simples e uma dúvida de gramática — pra mostrar ao modelo como eu queria que ele respondesse em cada tipo de situação.
+A parte mais difícil foi entender o código Python. Nunca tinha mexido com SDK de IA antes, e no começo não fazia ideia de como o histórico da conversa era mantido. Fui lendo aos poucos e descobri que o próprio objeto `chat` já cuida disso cada vez que você chama `chat.send_message()`, ele lembra tudo que foi dito antes automaticamente. Parece simples depois que entende, mas levou um tempo até clicar.
+
+No prompt, o que mais me deu trabalho foi escrever a parte de recusa quando o agente precisa dizer que não vai responder algo fora do escopo. As primeiras versões soavam muito robotizadas, tipo um atendente de banco. Fui ajustando até chegar num tom mais natural, onde a recusa vem acompanhada de um redirecionamento ("mas sobre inglês posso te ajudar muito"). Também coloquei dois exemplos diferentes no prompt uma tradução simples e uma dúvida de gramática pra mostrar ao modelo como eu queria que ele respondesse em cada tipo de situação.
 
 ---
 
